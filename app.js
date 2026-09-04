@@ -8,11 +8,11 @@ let examTimeSeconds = 105 * 60;
 
 const CATEGORIES = {
   1: "Security & Access",
-  2: "Automation & Logic",
-  3: "Data Management",
-  4: "Sales & Service Apps",
-  5: "UI & Analytics",
-  6: "Deployment & Sandboxes"
+  2: "Data Modeling",
+  3: "Automation & Logic",
+  4: "User Interface",
+  5: "Analytics & Reports",
+  6: "App Deployment"
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -127,24 +127,18 @@ function renderQuizTab(tabIndex) {
 }
 
 function correctIndices(q) {
-  if (q.multiSelect) {
-    const s = new Set([q.correct, q.correct2]);
-    if (q.correct3 !== undefined) s.add(q.correct3);
-    return s;
-  }
-  return new Set([q.correct]);
+  return Array.isArray(q.correct) ? new Set(q.correct) : new Set([q.correct]);
 }
 
 function multiSelectCount(q) {
-  if (!q.multiSelect) return 1;
-  return q.correct3 !== undefined ? 3 : 2;
+  return Array.isArray(q.correct) ? q.correct.length : 1;
 }
 
 function isAnswerCorrect(q, answer) {
-  if (q.multiSelect) {
-    const needed = multiSelectCount(q);
+  if (Array.isArray(q.correct)) {
+    const needed = q.correct.length;
     if (!Array.isArray(answer) || answer.length !== needed) return false;
-    const corrSet = correctIndices(q);
+    const corrSet = new Set(q.correct);
     return answer.every(a => corrSet.has(a));
   }
   return answer === q.correct;
@@ -157,12 +151,12 @@ function createQuestionCard(q, displayNum) {
   if (submittedQuestions[q.id]) card.classList.add("submitted");
 
   const answer = userAnswers[q.id];
-  const selectedSet = q.multiSelect
+  const selectedSet = Array.isArray(q.correct)
     ? new Set(Array.isArray(answer) ? answer : [])
     : new Set(answer !== undefined ? [answer] : []);
   const corrSet = correctIndices(q);
 
-  const multiLabel = q.multiSelect
+  const multiLabel = Array.isArray(q.correct)
     ? `<span class="multi-select-label">Choose ${multiSelectCount(q)} answers</span>`
     : "";
 
@@ -173,7 +167,7 @@ function createQuestionCard(q, displayNum) {
       if (corrSet.has(i)) extraClass = "correct-answer";
       else if (selectedSet.has(i)) extraClass = "user-wrong";
     }
-    const inputType = q.multiSelect ? "checkbox" : "radio";
+    const inputType = Array.isArray(q.correct) ? "checkbox" : "radio";
     return `
       <div class="option-item ${isSelected} ${extraClass}" onclick="selectOption(${q.id}, ${i})">
         <div class="option-radio option-${inputType}"></div>
@@ -184,7 +178,7 @@ function createQuestionCard(q, displayNum) {
   }).join("");
 
   const isSubmitted = submittedQuestions[q.id];
-  const hasSelection = q.multiSelect
+  const hasSelection = Array.isArray(q.correct)
     ? Array.isArray(answer) && answer.length === multiSelectCount(q)
     : answer !== undefined;
   const submitDisabled = !hasSelection || isSubmitted ? "disabled" : "";
@@ -215,7 +209,7 @@ function selectOption(qid, optionIdx) {
   const q = questionsData.find(item => item.id === qid);
   if (!q) return;
 
-  if (q.multiSelect) {
+  if (Array.isArray(q.correct)) {
     let current = Array.isArray(userAnswers[qid]) ? [...userAnswers[qid]] : [];
     const pos = current.indexOf(optionIdx);
     if (pos >= 0) {
@@ -260,7 +254,7 @@ function submitAnswer(qid) {
     card.classList.add("submitted");
     const answer = userAnswers[qid];
     const corrSet = correctIndices(q);
-    const selectedSet = q.multiSelect
+    const selectedSet = Array.isArray(q.correct)
       ? new Set(Array.isArray(answer) ? answer : [])
       : new Set(answer !== undefined ? [answer] : []);
 
@@ -328,7 +322,7 @@ function renderDashboard() {
 
     catQuestions.forEach(q => {
       const ans = userAnswers[q.id];
-      const hasAns = q.multiSelect
+      const hasAns = Array.isArray(q.correct)
         ? Array.isArray(ans) && ans.length === multiSelectCount(q)
         : ans !== undefined;
       if (hasAns) {
@@ -354,7 +348,7 @@ function renderDashboard() {
 function updateQuizProgress(filtered) {
   const answered = filtered.filter(q => {
     const ans = userAnswers[q.id];
-    if (q.multiSelect) return Array.isArray(ans) && ans.length === multiSelectCount(q);
+    if (Array.isArray(q.correct)) return Array.isArray(ans) && ans.length === multiSelectCount(q);
     return ans !== undefined;
   }).length;
   document.getElementById("quiz-progress-text").innerText = `${answered} / ${filtered.length} Answered`;

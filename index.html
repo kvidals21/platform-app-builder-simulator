@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Salesforce Certified Platform Administrator II Practice Exam Simulator">
-  <title>Platform Administrator II Exam Simulator (PLAT-ADMN-301)</title>
+  <meta name="description" content="Salesforce Certified Platform App Builder Practice Exam Simulator">
+  <title>Platform App Builder Exam Simulator (PLAT-ADMN-202)</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 </head>
@@ -15,7 +15,7 @@
     <div class="loading-card">
       <div class="loading-spinner"></div>
       <h2>Loading Question Bank</h2>
-      <p id="loading-status">Initializing Platform Admin II question bank…</p>
+      <p id="loading-status">Initializing Platform App Builder question bank…</p>
       <div class="loading-progress-bar">
         <div class="loading-progress-fill" id="loading-fill" style="width: 0%;"></div>
       </div>
@@ -27,7 +27,7 @@
     <div class="password-card">
       <div class="password-lock-icon">🔒</div>
       <h2>Authorized Access Only</h2>
-      <p>Enter the password to access the Platform Admin II Simulator.</p>
+      <p>Enter the password to access the Platform App Builder Simulator.</p>
       <form id="password-form" class="password-form" onsubmit="checkPassword(event)">
         <div class="password-input-wrapper">
           <input type="password" id="password-input" placeholder="Enter password" required autofocus autocomplete="current-password">
@@ -44,14 +44,14 @@
       <div class="header-brand">
         <div class="logo-icon">⚡</div>
         <h1>
-          Platform Administrator II Simulator
-          <span>Salesforce Certified PLAT-ADMN-301 · 222 Practice Questions</span>
+          Platform App Builder Simulator
+          <span>Salesforce Certified PLAT-ADMN-202 · 259 Practice Questions</span>
         </h1>
       </div>
 
       <div class="score-matrix">
         <div class="score-pill" id="pill-progress">
-          📝 Progress: <span class="pill-value" id="val-progress">0/222</span>
+          📝 Progress: <span class="pill-value" id="val-progress">0/259</span>
         </div>
         <div class="score-pill" id="pill-score">
           🎯 Score: <span class="pill-value" id="val-score">0.0%</span>
@@ -78,11 +78,11 @@
     <nav class="tab-nav" id="tab-nav" role="tablist">
       <button class="tab-btn active" onclick="switchTab(0)">📊 Dashboard</button>
       <button class="tab-btn" onclick="switchTab(1)">Security & Access <span class="tab-badge" id="badge-1">0</span></button>
-      <button class="tab-btn" onclick="switchTab(2)">Automation & Logic <span class="tab-badge" id="badge-2">0</span></button>
-      <button class="tab-btn" onclick="switchTab(3)">Data Management <span class="tab-badge" id="badge-3">0</span></button>
-      <button class="tab-btn" onclick="switchTab(4)">Sales & Service Apps <span class="tab-badge" id="badge-4">0</span></button>
-      <button class="tab-btn" onclick="switchTab(5)">UI & Analytics <span class="tab-badge" id="badge-5">0</span></button>
-      <button class="tab-btn" onclick="switchTab(6)">Deployment & Sandboxes <span class="tab-badge" id="badge-6">0</span></button>
+      <button class="tab-btn" onclick="switchTab(2)">Data Modeling <span class="tab-badge" id="badge-2">0</span></button>
+      <button class="tab-btn" onclick="switchTab(3)">Automation & Logic <span class="tab-badge" id="badge-3">0</span></button>
+      <button class="tab-btn" onclick="switchTab(4)">User Interface <span class="tab-badge" id="badge-4">0</span></button>
+      <button class="tab-btn" onclick="switchTab(5)">Analytics & Reports <span class="tab-badge" id="badge-5">0</span></button>
+      <button class="tab-btn" onclick="switchTab(6)">App Deployment <span class="tab-badge" id="badge-6">0</span></button>
       <button class="tab-btn" onclick="switchTab(7)">🎯 Full Exam <span class="tab-badge" id="badge-7">0</span></button>
     </nav>
   </header>
@@ -92,10 +92,10 @@
       <div class="dashboard-grid">
         <div class="dash-card">
           <h2>📋 Exam Overview</h2>
-          <p>Salesforce Certified Platform Administrator II (PLAT-ADMN-301)</p>
+          <p>Salesforce Certified Platform App Builder (PLAT-ADMN-202)</p>
           <div class="stat-row">
             <div class="stat-box">
-              <div class="stat-value" id="dash-total-q">222</div>
+              <div class="stat-value" id="dash-total-q">259</div>
               <div class="stat-label">Total Questions Bank</div>
             </div>
             <div class="stat-box">
