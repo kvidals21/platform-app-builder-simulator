@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Salesforce Certified Platform Administrator II Practice Exam Simulator">
+  <title>Platform Administrator II Exam Simulator (PLAT-ADMN-301)</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+
+  <!-- LOADING OVERLAY -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-card">
+      <div class="loading-spinner"></div>
+      <h2>Loading Question Bank</h2>
+      <p id="loading-status">Initializing Platform Admin II question bank…</p>
+      <div class="loading-progress-bar">
+        <div class="loading-progress-fill" id="loading-fill" style="width: 0%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASSWORD GATE OVERLAY -->
+  <div class="password-overlay" id="password-overlay">
+    <div class="password-card">
+      <div class="password-lock-icon">🔒</div>
+      <h2>Authorized Access Only</h2>
+      <p>Enter the password to access the Platform Admin II Simulator.</p>
+      <form id="password-form" class="password-form" onsubmit="checkPassword(event)">
+        <div class="password-input-wrapper">
+          <input type="password" id="password-input" placeholder="Enter password" required autofocus autocomplete="current-password">
+          <div class="password-error" id="password-error" style="display: none;">❌ Incorrect password. Try again.</div>
+        </div>
+        <button type="submit" class="password-submit-btn">Unlock Simulator</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- APP HEADER -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="header-brand">
+        <div class="logo-icon">⚡</div>
+        <h1>
+          Platform Administrator II Simulator
+          <span>Salesforce Certified PLAT-ADMN-301 · 222 Practice Questions</span>
+        </h1>
+      </div>
+
+      <div class="score-matrix">
+        <div class="score-pill" id="pill-progress">
+          📝 Progress: <span class="pill-value" id="val-progress">0/222</span>
+        </div>
+        <div class="score-pill" id="pill-score">
+          🎯 Score: <span class="pill-value" id="val-score">0.0%</span>
+        </div>
+        <div class="score-pill failing" id="pill-status">
+          📊 Status: <span class="pill-value" id="val-status">Not Passing</span>
+        </div>
+
+        <div class="exam-timer hidden" id="exam-timer">
+          <span class="timer-icon">⏱️</span>
+          <span id="timer-text">01:45:00</span>
+        </div>
+
+        <button class="submit-exam-btn hidden" id="submit-exam-btn" onclick="submitFullExam()">Submit Exam</button>
+      </div>
+
+      <div class="mode-toggle-wrapper">
+        <label for="mode-toggle">Study</label>
+        <input type="checkbox" class="toggle-switch" id="mode-toggle" onchange="toggleMode(this.checked)" aria-label="Toggle between Study and Exam mode">
+        <label for="mode-toggle">Exam</label>
+      </div>
+    </div>
+
+    <nav class="tab-nav" id="tab-nav" role="tablist">
+      <button class="tab-btn active" onclick="switchTab(0)">📊 Dashboard</button>
+      <button class="tab-btn" onclick="switchTab(1)">Security & Access <span class="tab-badge" id="badge-1">0</span></button>
+      <button class="tab-btn" onclick="switchTab(2)">Automation & Logic <span class="tab-badge" id="badge-2">0</span></button>
+      <button class="tab-btn" onclick="switchTab(3)">Data Management <span class="tab-badge" id="badge-3">0</span></button>
+      <button class="tab-btn" onclick="switchTab(4)">Sales & Service Apps <span class="tab-badge" id="badge-4">0</span></button>
+      <button class="tab-btn" onclick="switchTab(5)">UI & Analytics <span class="tab-badge" id="badge-5">0</span></button>
+      <button class="tab-btn" onclick="switchTab(6)">Deployment & Sandboxes <span class="tab-badge" id="badge-6">0</span></button>
+      <button class="tab-btn" onclick="switchTab(7)">🎯 Full Exam <span class="tab-badge" id="badge-7">0</span></button>
+    </nav>
+  </header>
+
+  <main id="app-container">
+    <div class="tab-pane active" id="tab-0">
+      <div class="dashboard-grid">
+        <div class="dash-card">
+          <h2>📋 Exam Overview</h2>
+          <p>Salesforce Certified Platform Administrator II (PLAT-ADMN-301)</p>
+          <div class="stat-row">
+            <div class="stat-box">
+              <div class="stat-value" id="dash-total-q">222</div>
+              <div class="stat-label">Total Questions Bank</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">105</div>
+              <div class="stat-label">Minutes</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">65%</div>
+              <div class="stat-label">Passing Score</div>
+            </div>
+          </div>
+          <p style="font-size:.82rem;color:var(--text-muted);margin-top:12px">
+            Interactive practice mode with instant explanations or full exam simulation mode.
+          </p>
+        </div>
+
+        <div class="dash-card">
+          <h2>🎯 Overall Progress</h2>
+          <p>Real-time performance metrics across all domains.</p>
+          <div class="stat-row">
+            <div class="stat-box">
+              <div class="stat-value" id="dash-answered">0</div>
+              <div class="stat-label">Answered</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="dash-correct">0</div>
+              <div class="stat-label">Correct</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value" id="dash-score">—</div>
+              <div class="stat-label">Accuracy</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card full-width">
+          <h3>📚 Domain Breakdown</h3>
+          <div class="cat-progress-grid" id="category-progress-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="tab-quiz">
+      <div class="section-header">
+        <h2 id="quiz-tab-title">Category Name</h2>
+        <div class="section-header-actions">
+          <button class="btn-shuffle" onclick="shuffleActiveTab()" title="Shuffle question order">🔀 Shuffle Questions</button>
+          <span class="section-progress" id="quiz-progress-text">0 / 0 Answered</span>
+        </div>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
